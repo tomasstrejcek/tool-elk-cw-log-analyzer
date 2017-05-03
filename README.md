@@ -33,6 +33,11 @@ just run `docker-composer down` - this will remove all docker machines from this
 after that you need to remove volume with the elasticsearch data, so its no restored when you rung docker-composer up again
 run `docker volume rm cloudwatchelk_esdata1` (or use `docker volume ls` to fund the volume name)
 
-
-git remote add origin git@github.com:tomasstrejcek/tool-elk-cw-log-analyzer.git
-git push -u origin master
+### logs prefiltering
+in `logstash/pipeline/logstash.conf` is commented out filtering module
+```
+if ([message] !~ "message-not-contains1" and [message] !~ "message-not-contains2"  ) {
+    drop { }
+}
+```
+Logs not containing specific keywords are dropped, this can be obviously tuned away to drop unneccessary stuff
